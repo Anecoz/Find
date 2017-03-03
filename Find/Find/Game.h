@@ -17,6 +17,7 @@ private:
 	EntityHandler* _entityHandler;
 	Camera* _camera;
 	Initializer* _initializer;
+	double _oldTime;
 
 	void tick();
 	void render();

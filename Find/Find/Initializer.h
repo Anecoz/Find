@@ -21,7 +21,7 @@ private:
 	int _screenWidth = 1280;
 	int _screenHeight = 720;
 
-	std::string _windowTitle = "Planet";
+	std::string _windowTitle = "Find - A dank game";
 
 	glm::vec4 _clearColor{ 0.2, 0.2, 0.5, 1.0 };
 };

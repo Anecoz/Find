@@ -9,7 +9,6 @@
 Camera::Camera() {
 	this->_pos = { 1, 2, 1 };
 	this->_look = { 2, 1, 1};
-	this->_currMousePos = { 0, 0 };
 
 	init();
 }
@@ -19,14 +18,12 @@ Camera::Camera(const glm::vec3 initPos)
 	// Initialize to some position provided in constructor
 	this->_pos = initPos;
 	this->_look = { _pos.x + 1, _pos.y, _pos.z };
-	this->_currMousePos = { 0, 0 };
 
 	// Initialize state stuff
 	init();
 }
 
 void Camera::init() {
-	this->_tSinceLast = glfwGetTime();
 	_projMatrix = glm::perspective(45.0f, 16.0f / 9.0f, 0.1f, 2000.0f);
 }
 
@@ -34,13 +31,7 @@ glm::vec3 Camera::getPos() {
 	return this->_pos;
 }
 
-glm::vec2 Camera::getCurrMousePos() {
-	return _currMousePos;
-}
-
 void Camera::handleMouseMovement(int x, int y) {
-	_currMousePos.x = x;
-	_currMousePos.y = y;
 	if (_shouldMoveCamera) {
 		GLfloat xdiff = ((GLfloat)MOUSE_WARP_X - x) / ((GLfloat)_sensitivity*MOUSE_WARP_X); //Using offsets where mouse is warped everytime
 		GLfloat ydiff = ((GLfloat)MOUSE_WARP_Y - y) / ((GLfloat)_sensitivity*MOUSE_WARP_Y);
@@ -87,17 +78,12 @@ glm::mat4 Camera::getCombined() const {
 	return _projMatrix * getCameraMatrix();
 }
 
-void Camera::updateTSinceLast() {
-	_tSinceLast = glfwGetTime();
-}
-
-void Camera::update()
+void Camera::update(double deltaTime)
 {
 	handleMouseMovement(MousePosInput::getPosition().x, MousePosInput::getPosition().y);
 	// I did the maths for this a loooooong 
 	// time ago and sadly didn't comment anything.
 	// It is what it is, move along.
-	GLfloat timeElapsed = abs(glfwGetTime() - _tSinceLast);
 	GLfloat speedModifier = 1.0;
 
 	if (KeyInput::isKeyDown(GLFW_KEY_SPACE))
@@ -107,7 +93,7 @@ void Camera::update()
 	if (KeyInput::isKeyDown(GLFW_KEY_LEFT_ALT))
 		speedModifier += 300.0;
 
-	GLfloat speed = (speedModifier*timeElapsed)*10.0;
+	GLfloat speed = (speedModifier*deltaTime)*10.0;
 	// Directional vector
 	glm::vec3 n = _look - _pos;
 	n = glm::normalize(n);
@@ -148,6 +134,4 @@ void Camera::update()
 		_pos = tmp + tmp3;
 		_look = _look + axis;
 	}
-
-	updateTSinceLast();
 }

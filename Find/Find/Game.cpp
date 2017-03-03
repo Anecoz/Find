@@ -22,6 +22,7 @@ Game::Game() {
 
 	_entityHandler = new EntityHandler();
 	_camera = new Camera();
+	_oldTime = glfwGetTime();
 }
 
 Game::~Game() {
@@ -42,10 +43,14 @@ void Game::run() {
 void Game::tick() {
 	glfwPollEvents();
 
-	_camera->update();
-	glfwSetCursorPos(_window, Camera::MOUSE_WARP_X, Camera::MOUSE_WARP_Y);
+	double now = glfwGetTime();
+	double deltaTime = now - _oldTime;
+	_oldTime = now;
 
-	_entityHandler->tick(_camera);
+	_camera->update(deltaTime);
+	glfwSetCursorPos(_window, Camera::MOUSE_WARP_X, Camera::MOUSE_WARP_Y);
+	
+	_entityHandler->tick(_camera, deltaTime);
 }
 
 void Game::render() {
