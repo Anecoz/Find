@@ -140,7 +140,33 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="EntityHandler.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Initializer.cpp" />
+    <ClCompile Include="KeyInput.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MouseButtonInput.cpp" />
+    <ClCompile Include="MousePosInput.cpp" />
+    <ClCompile Include="OBJLoader.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShaderHandler.cpp" />
+    <ClCompile Include="ShaderUtils.cpp" />
+    <ClCompile Include="VertexArrayObject.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="EntityHandler.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Initializer.h" />
+    <ClInclude Include="KeyInput.h" />
+    <ClInclude Include="MouseButtonInput.h" />
+    <ClInclude Include="MousePosInput.h" />
+    <ClInclude Include="OBJLoader.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShaderHandler.h" />
+    <ClInclude Include="ShaderUtils.h" />
+    <ClInclude Include="VertexArrayObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
