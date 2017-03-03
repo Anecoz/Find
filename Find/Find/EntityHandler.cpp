@@ -8,8 +8,10 @@ EntityHandler::~EntityHandler()
 {
 }
 
-void EntityHandler::tick(Camera* cam) {
+void EntityHandler::tick(Camera* cam)
+{
 }
 
-void EntityHandler::render(Camera* cam) {
+void EntityHandler::render(Camera* cam)
+{
 }
