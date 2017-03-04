@@ -13,6 +13,7 @@ class Shader
 public:
 	Shader();
 	Shader(string vertPath, string fragPath);
+	Shader(string vertPath, string geomPath, string fragPath);
 	~Shader();
 
 	static const GLint VERTEX_ATTRIB_LOC = 0;

@@ -6,7 +6,7 @@ Shader* ShaderHandler::_gridShader;
 
 void ShaderHandler::init()
 {
-	_gridShader = new Shader("grid.vert", "grid.frag");
+	_gridShader = new Shader("grid.vert", "grid.geom", "grid.frag");
 }
 
 void ShaderHandler::cleanUp()

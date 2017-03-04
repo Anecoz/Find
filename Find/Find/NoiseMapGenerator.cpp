@@ -6,6 +6,9 @@ using namespace noise;
 
 NoiseMapGenerator::NoiseMapGenerator()
 {
+	_perlinModule.SetFrequency(0.03);
+	_perlinModule.SetLacunarity(1.5);
+	_perlinModule.SetOctaveCount(6);
 	_heightMapBuilder.SetSourceModule(_perlinModule);
 	_heightMapBuilder.SetDestNoiseMap(_heightMap);
 }
@@ -14,10 +17,10 @@ NoiseMapGenerator::~NoiseMapGenerator()
 {
 }
 
-float* NoiseMapGenerator::getHeightmapData(int width, int height)
+float* NoiseMapGenerator::getHeightmapData(glm::vec2& pos, int width, int height)
 {
 	_heightMapBuilder.SetDestSize(width, height);
-	_heightMapBuilder.SetBounds(2.0, 6.0, 1.0, 5.0);
+	_heightMapBuilder.SetBounds(pos.x, pos.x + (float)width, pos.y, pos.y + (float)height);
 	_heightMapBuilder.Build();
 
 	return _heightMap.GetSlabPtr();

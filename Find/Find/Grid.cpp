@@ -3,6 +3,7 @@
 #include "ShaderHandler.h"
 
 #include <glm/glm.hpp>
+#include <glm/gtx/transform.hpp>
 #include <vector>
 #include <iostream>
 
@@ -32,14 +33,18 @@ Grid::~Grid()
 
 void Grid::tick(Camera* cam, float deltaTime)
 {
-	float* data = _noiseGenerator.getHeightmapData(256, 256);
+	glm::vec2 pos;
+	pos.x = floor(cam->getPos().x);
+	pos.y = floor(cam->getPos().z);
+	float* data = _noiseGenerator.getHeightmapData(pos, SIZE, SIZE);
 
 	if (_texture == nullptr) {
-		_texture = new Texture(data, 256, 256);
+		_texture = new Texture(data, SIZE, SIZE);
 	}
 	else {
 		_texture->updateData(data);
 	}
+	_position = pos;
 }
 
 void Grid::render(Camera* cam)
@@ -48,9 +53,10 @@ void Grid::render(Camera* cam)
 	ShaderHandler::_gridShader->uploadTexture(0, HEIGHTMAP_NAME);
 	glActiveTexture(GL_TEXTURE0);
 	_texture->bind();
+
 	ShaderHandler::_gridShader->uploadMatrix(cam->getProj(), PROJ_MTX_NAME);
 	ShaderHandler::_gridShader->uploadMatrix(cam->getCameraMatrix(), CAM_MTX_NAME);
-	ShaderHandler::_gridShader->uploadMatrix(glm::mat4(), MODEL_MTX_NAME);
+	ShaderHandler::_gridShader->uploadMatrix(glm::translate(glm::vec3(_position.x, 0, _position.y)), MODEL_MTX_NAME);
 
 	_mesh->draw();
 

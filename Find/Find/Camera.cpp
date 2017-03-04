@@ -119,17 +119,17 @@ void Camera::update(double deltaTime)
 		_pos = tmp + tmp2;
 		_look = _look + n;
 	}
-	if (KeyInput::isKeyDown(GLFW_KEY_S))
+	else if (KeyInput::isKeyDown(GLFW_KEY_S))
 	{
 		_pos = tmp - tmp2;
 		_look = _look - n;
 	}
-	if (KeyInput::isKeyDown(GLFW_KEY_A))
+	else if (KeyInput::isKeyDown(GLFW_KEY_A))
 	{
 		_pos = tmp - tmp3;
 		_look = _look - axis;
 	}
-	if (KeyInput::isKeyDown(GLFW_KEY_D))
+	else if (KeyInput::isKeyDown(GLFW_KEY_D))
 	{
 		_pos = tmp + tmp3;
 		_look = _look + axis;

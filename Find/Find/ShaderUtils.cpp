@@ -21,14 +21,31 @@ std::string ShaderUtils::readFile(const char *filePath) {
 
 GLuint ShaderUtils::loadShaders(const char *vertex_path, const char *fragment_path)
 {
+	return loadShaders(vertex_path, NULL, fragment_path);
+}
+
+GLuint ShaderUtils::loadShaders(const char *vertex_path, const char *geom_path, const char *fragment_path)
+{
 	GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
 	GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
+	GLuint geomShader;
+	if (geom_path) {
+		geomShader = glCreateShader(GL_GEOMETRY_SHADER);
+	}
 
 	// Read shaders
 	std::string vertShaderStr = ShaderUtils::readFile(vertex_path);
 	std::string fragShaderStr = ShaderUtils::readFile(fragment_path);
+	std::string geomShaderStr;
+	if (geom_path) {
+		geomShaderStr = ShaderUtils::readFile(geom_path);
+	}
 	const char *vertShaderSrc = vertShaderStr.c_str();
 	const char *fragShaderSrc = fragShaderStr.c_str();
+	const char *geomShaderSrc;
+	if (geom_path) {
+		geomShaderSrc = geomShaderStr.c_str();
+	}
 
 	GLint result = GL_FALSE;
 	int logLength;
@@ -57,9 +74,26 @@ GLuint ShaderUtils::loadShaders(const char *vertex_path, const char *fragment_pa
 	if (strlen(&fragShaderError[0]) != 0)
 		std::cout << &fragShaderError[0] << std::endl;
 
+	if (geom_path) {
+		// Compile geom shader
+		glShaderSource(geomShader, 1, &geomShaderSrc, NULL);
+		glCompileShader(geomShader);
+
+		// Check geom shader
+		glGetShaderiv(geomShader, GL_COMPILE_STATUS, &result);
+		glGetShaderiv(geomShader, GL_INFO_LOG_LENGTH, &logLength);
+		std::vector<GLchar> geomShaderError((logLength > 1) ? logLength : 1);
+		glGetShaderInfoLog(geomShader, logLength, NULL, &geomShaderError[0]);
+		if (strlen(&geomShaderError[0]) != 0)
+			std::cout << &geomShaderError[0] << std::endl;
+	}
+
 	GLuint program = glCreateProgram();
 	glAttachShader(program, vertShader);
 	glAttachShader(program, fragShader);
+	if (geom_path) {
+		glAttachShader(program, geomShader);
+	}
 	glLinkProgram(program);
 
 	glGetProgramiv(program, GL_LINK_STATUS, &result);
@@ -71,6 +105,9 @@ GLuint ShaderUtils::loadShaders(const char *vertex_path, const char *fragment_pa
 
 	glDeleteShader(vertShader);
 	glDeleteShader(fragShader);
+	if (geom_path) {
+		glDeleteShader(geomShader);
+	}
 
 	return program;
 }

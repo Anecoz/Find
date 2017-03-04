@@ -23,5 +23,9 @@ private:
 	std::string MODEL_MTX_NAME = "modelMatrix";
 	std::string CAM_MTX_NAME = "camMatrix";
 	std::string PROJ_MTX_NAME = "projMatrix";
+
+	const int SIZE = 256;
+
+	glm::vec2 _position;
 };
 

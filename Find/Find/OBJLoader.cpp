@@ -16,7 +16,7 @@ bool OBJLoader::loadFromFile(const std::string& path, std::vector<glm::vec3>& ou
 	std::vector<glm::vec3> tmpVertices;	
 	std::vector<glm::vec3> tmpNormals;
 	std::vector<unsigned> vertexIndices;
-	std::vector<unsigned> normalIndices;
+	//std::vector<unsigned> normalIndices;
 
 	while (1) {
 
@@ -33,11 +33,11 @@ bool OBJLoader::loadFromFile(const std::string& path, std::vector<glm::vec3>& ou
 		}
 		else if (strcmp(lineHeader, "vt") == 0) {
 		}
-		else if (strcmp(lineHeader, "vn") == 0) {
+		/*else if (strcmp(lineHeader, "vn") == 0) {
 			glm::vec3 normal;
 			fscanf(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z);
 			tmpNormals.push_back(normal);
-		}
+		}*/
 		else if (strcmp(lineHeader, "f") == 0) {
 			unsigned int vertexIndex[3], normalIndex[3];
 			int matches = fscanf(file, "%d//%d %d//%d %d//%d\n", &vertexIndex[0], &normalIndex[0], &vertexIndex[1], &normalIndex[1], &vertexIndex[2], &normalIndex[2]);
@@ -48,13 +48,13 @@ bool OBJLoader::loadFromFile(const std::string& path, std::vector<glm::vec3>& ou
 			vertexIndices.push_back(vertexIndex[0] - 1);
 			vertexIndices.push_back(vertexIndex[1] - 1);
 			vertexIndices.push_back(vertexIndex[2] - 1);
-			normalIndices.push_back(normalIndex[0] - 1);
-			normalIndices.push_back(normalIndex[1] - 1);
-			normalIndices.push_back(normalIndex[2] - 1);
+			//normalIndices.push_back(normalIndex[0] - 1);
+			//normalIndices.push_back(normalIndex[1] - 1);
+			//normalIndices.push_back(normalIndex[2] - 1);
 		}
 	}
 	
-	tmpNormals = fixNormals(vertexIndices, normalIndices, tmpNormals, tmpVertices);
+	//tmpNormals = fixNormals(vertexIndices, normalIndices, tmpNormals, tmpVertices);
 	outVerts = tmpVertices;
 	outIndices = vertexIndices;
 	outNormals = tmpNormals;

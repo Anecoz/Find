@@ -12,6 +12,11 @@ Shader::Shader(string vertPath, string fragPath) {
 	std::cout << "Loaded shader: " << vertPath << ", " << fragPath << std::endl;
 }
 
+Shader::Shader(string vertPath, string geomPath, string fragPath) {
+	id = ShaderUtils::loadShaders(vertPath.c_str(), geomPath.c_str(), fragPath.c_str());
+	std::cout << "Loaded shader: " << vertPath << ", " << geomPath << ", " << fragPath << std::endl;
+}
+
 Shader::~Shader() {
 	glDeleteProgram(id);
 }
