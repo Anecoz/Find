@@ -23,15 +23,15 @@ public:
 	void pissOff();
 
 	// ---------UPLOADS--------
-	void uploadFloat(GLfloat val, string name);
-	void uploadInt(GLint val, string name);
-	void uploadVec(vec4& vec, string name);
-	void uploadVec(vec3& vec, string name);
-	void uploadVec(vec2& vec, string name);
-	void uploadVecArr(vector<vec2>& vecArr, string name);
-	void uploadBool(GLboolean val, string name);
-	void uploadTexture(GLint texUnit, string name);
-	void uploadMatrix(mat4& mat, string name);
+	void uploadFloat(GLfloat val, string& name);
+	void uploadInt(GLint val, string& name);
+	void uploadVec(vec4& vec, string& name);
+	void uploadVec(vec3& vec, string& name);
+	void uploadVec(vec2& vec, string& name);
+	void uploadVecArr(vector<vec2>& vecArr, string& name);
+	void uploadBool(GLboolean val, string& name);
+	void uploadTexture(GLint texUnit, string& name);
+	void uploadMatrix(mat4& mat, string& name);
 
 private:
 	GLuint id;

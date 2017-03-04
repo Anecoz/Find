@@ -1,5 +1,6 @@
 #pragma once
 #include "Camera.h"
+#include "Grid.h"
 
 class EntityHandler {
 public:
@@ -10,4 +11,5 @@ public:
 	void render(Camera* cam);
 
 private:
+	Grid* _grid;
 };

@@ -831,6 +831,11 @@ NoiseMapBuilderPlane::NoiseMapBuilderPlane ():
 {
 }
 
+static double linearMapping(double val, double minSrc, double maxSrc, double minDst, double maxDst)
+{
+	return (val - minSrc) * (maxDst - minDst) / (maxSrc - minSrc) + minDst;
+}
+
 void NoiseMapBuilderPlane::Build ()
 {
   if ( m_upperXBound <= m_lowerXBound
@@ -864,7 +869,8 @@ void NoiseMapBuilderPlane::Build ()
     for (int x = 0; x < m_destWidth; x++) {
       float finalValue;
       if (!m_isSeamlessEnabled) {
-        finalValue = planeModel.GetValue (xCur, zCur);
+		  //finalValue = planeModel.GetValue(xCur, zCur);
+        finalValue = linearMapping(planeModel.GetValue (xCur, zCur), -1.0, 1.0, 0.0, 1.0);
       } else {
         double swValue, seValue, nwValue, neValue;
         swValue = planeModel.GetValue (xCur          , zCur          );
@@ -875,7 +881,7 @@ void NoiseMapBuilderPlane::Build ()
         double zBlend = 1.0 - ((zCur - m_lowerZBound) / zExtent);
         double z0 = LinearInterp (swValue, seValue, xBlend);
         double z1 = LinearInterp (nwValue, neValue, xBlend);
-        finalValue = (float)LinearInterp (z0, z1, zBlend);
+        finalValue = (float)linearMapping(LinearInterp (z0, z1, zBlend), -1.0, 1.0, 0.0, 1.0);
       }
       *pDest++ = finalValue;
       xCur += xDelta;
